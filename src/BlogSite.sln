@@ -5,6 +5,8 @@ VisualStudioVersion = 17.0.31903.59
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BlogSite.Api", "BlogSite.Api\BlogSite.Api.csproj", "{FB0743E1-D265-4A22-A451-0F5E52BEA674}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BlogSite.Wasm", "BlogSite.Wasm\BlogSite.Wasm.csproj", "{960648F9-792F-4501-9965-A4AF4B79258E}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -18,5 +20,9 @@ Global
 		{FB0743E1-D265-4A22-A451-0F5E52BEA674}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{FB0743E1-D265-4A22-A451-0F5E52BEA674}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{FB0743E1-D265-4A22-A451-0F5E52BEA674}.Release|Any CPU.Build.0 = Release|Any CPU
+		{960648F9-792F-4501-9965-A4AF4B79258E}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{960648F9-792F-4501-9965-A4AF4B79258E}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{960648F9-792F-4501-9965-A4AF4B79258E}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{960648F9-792F-4501-9965-A4AF4B79258E}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 EndGlobal
