@@ -6,4 +6,11 @@
         <Nullable>enable</Nullable>
     </PropertyGroup>
 
+
+    <ItemGroup>
+      <ProjectReference Include="..\BlogSite.CrossCutting\BlogSite.CrossCutting.csproj" />
+    </ItemGroup>
+
+
+
 </Project>
