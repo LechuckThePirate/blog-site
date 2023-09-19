@@ -40,7 +40,7 @@
         - name: Push API DockerFile
           run: docker login ghcr.io -u ${{ github.repository_owner }} -p ${{ secrets.PUBLISH_DOCKER_IMAGE_TOKEN }} && docker push ghcr.io/${{ github.repository }}/blogsite-api:latest
           
-    deploy:
-      needs: build-dockerfiles
-      runs-on: ubuntu-latest
-      
+#    deploy:
+#      needs: build-dockerfiles
+#      runs-on: ubuntu-latest
+#      
