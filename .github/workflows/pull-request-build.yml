@@ -1,0 +1,46 @@
+name: Continuous Integration
+
+on:
+  pull_request:
+    branches: [ "main" ]
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+    - uses: actions/checkout@v3
+    - name: Setup .NET
+      uses: actions/setup-dotnet@v3
+      with:
+        dotnet-version: 7.0.x
+    - name: Restore dependencies
+      run: dotnet restore ./src/BlogSite.sln
+    - name: Build
+      run: dotnet build ./src/BlogSite.sln --no-restore
+    - name: Test
+      run: dotnet test ./src/BlogSite.UnitTests/BlogSite.UnitTests.csproj --no-build --verbosity normal
+    
+    
+  build-dockerfiles:
+    needs: build
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+      - name: Setup .NET
+        uses: actions/setup-dotnet@v3
+        with:
+          dotnet-version: 7.0.x
+      - name: Restore dependencies
+        run: dotnet restore ./src/BlogSite.sln
+      - name: Build WASM DockerFile
+        run: docker build -f ./src/BlogSite.Wasm/Dockerfile -t blogsite-wasm:latest ./src/BlogSite.Wasm
+      - name: Build API DockerFile
+        run: docker build -f ./src/BlogSite.Api/Dockerfile -t blogsite-api:latest ./src/BlogSite.Api
+      - name: Login to ghcr.io
+        run: docker login ghcr.io -u ${{ github.repository_owner }} -p ${{ secrets.PUBLISH_DOCKER_IMAGE_TOKEN }} 
+      - name: Push Wasm DockerFile 
+        run: docker push ghcr.io/${{ github.repository }}/blogsite-wasm:latest
+      - name: Push API DockerFile
+        run: docker push ghcr.io/${{ github.repository }}/blogsite-api:latest
+   

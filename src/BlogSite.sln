@@ -29,7 +29,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BlogSite.UnitTests", "BlogS
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{59E9792C-2D8A-4678-B029-5946E81D470E}"
 	ProjectSection(SolutionItems) = preProject
-		docker-compose.yml = docker-compose.yml
+		docker-compose-local.yml = docker-compose-local.yml
+		docker-compose-main.yml = docker-compose-main.yml
 	EndProjectSection
 EndProject
 Global
