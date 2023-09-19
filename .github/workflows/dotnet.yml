@@ -17,8 +17,8 @@ jobs:
       with:
         dotnet-version: 7.0.x
     - name: Restore dependencies
-      run: dotnet restore
+      run: dotnet restore ./src/BlogSite.sln
     - name: Build
       run: dotnet build ./src/BlogSite.sln --no-restore
     - name: Test
-      run: dotnet test --no-build --verbosity normal
+      run: dotnet test ./src/BlogSite/BlogSite.UnitTests/BlogSite.UnitTests.csproj --no-build --verbosity normal
