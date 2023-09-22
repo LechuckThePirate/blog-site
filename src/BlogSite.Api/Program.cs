@@ -9,16 +9,14 @@ builder.Services.AddControllers();
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 
-var connectionString = builder.Configuration.GetConnectionString("mysql")?
-    .Replace("{{DB_USER}}", Environment.GetEnvironmentVariable("DB_USER"))
-    .Replace("{{DB_PASSWORD}}", Environment.GetEnvironmentVariable("DB_PASSWORD"))
-    .Replace("{{DB_HOST}}", Environment.GetEnvironmentVariable("DB_HOST"))
-    .Replace("{{DB_PORT}}", Environment.GetEnvironmentVariable("DB_PORT"))
-    .Replace("{{DB_NAME}}", "db");
+var connectionString = BuildConnectionString();
 
 builder.Services.AddDataAccess(connectionString!);
 
 var app = builder.Build();
+
+var logger = app.Services.GetRequiredService<ILogger<Program>>();
+logger.LogInformation("Application started with connection string: {connectionString}", connectionString);
 
 // Configure the HTTP request pipeline.
 if (app.Environment.IsDevelopment())
@@ -41,3 +39,19 @@ app.UseCors(x => x
     .AllowCredentials());               // allow credentials 
 
 app.Run();
+
+string? BuildConnectionString()
+{
+    var user = Environment.GetEnvironmentVariable("DB_USER");
+    var password = Environment.GetEnvironmentVariable("DB_PASSWORD");
+    var host = Environment.GetEnvironmentVariable("DB_HOST");
+    var port = Environment.GetEnvironmentVariable("DB_PORT");
+    var name = "db";
+    
+    return builder.Configuration.GetConnectionString("mysql")?
+        .Replace("{{DB_USER}}", user)
+        .Replace("{{DB_PASSWORD}}", password)
+        .Replace("{{DB_HOST}}", host)
+        .Replace("{{DB_PORT}}", port ?? "3306")
+        .Replace("{{DB_NAME}}", "db");
+}
