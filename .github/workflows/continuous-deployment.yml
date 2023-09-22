@@ -1,71 +1,70 @@
-  on:
-    push:
-      branches:
-        - main
+name: Continuous Deployment
+on:
+  push:
+    branches:
+      - main
+jobs:
+  build-dockerfiles:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+      - name: Setup BuildX
+        id: buildx
+        uses: docker/setup-buildx-action@v3
 
-  jobs:
-    build-dockerfiles:
-      runs-on: ubuntu-latest
-      steps:
-        - uses: actions/checkout@v3
-        - name: Setup BuildX
-          id: buildx
-          uses: docker/setup-buildx-action@v3
-  
-        - name: DockerHub login
-          uses: docker/login-action@v3
-          with:
-            registry: ghcr.io
-            username: ${{ github.repository_owner }}
-            password: ${{ secrets.PUBLISH_DOCKER_IMAGE_TOKEN }}
-  
-        - name: Build and push API
-          uses: docker/build-push-action@v5
-          with:
-            push: true
-            tags: ghcr.io/lechuckthepirate/blogsite-api:latest
-            file: ./src/BlogSite.Api/Dockerfile
-            context: ./src
-  
-        - name: Build and push WASM
-          uses: docker/build-push-action@v5
-          with:
-            push: true
-            tags: ghcr.io/lechuckthepirate/blogsite-wasm:latest
-            file: ./src/BlogSite.Wasm/Dockerfile
-            context: ./src
-  
-    deploy-to-main:
-      name: Deploy main to host
-      needs: build-dockerfiles
-      runs-on: ubuntu-latest
-      steps:
-        - uses: actions/checkout@v3
-        - name: Copy docker compose file to host
-          uses: appleboy/scp-action@v0.1.4
-          with:
-            host: ${{ secrets.LINUX_HOST }}
-            username: ${{ secrets.LINUX_HOST_USERNAME }}
-            password: ${{ secrets.LINUX_HOST_PASSWORD }}
-            port: ${{ secrets.LINUX_HOST_PORT }}
-            source: "./src/docker-compose-main.yml"
-            target: /home/lechuckthepirate/blogsite/
-            strip_components: 2
-            overwrite: true
-        - name: Running docker-compose remotely
-          env:
-            DB_USER: ${{ secrets.DB_USER }}
-            DB_PASSWORD: ${{ secrets.DB_PASSWORD }}
-          uses: appleboy/ssh-action@v1.0.0
-          with:
-            host: ${{ secrets.LINUX_HOST }}
-            username: ${{ secrets.LINUX_HOST_USERNAME }}
-            password: ${{ secrets.LINUX_HOST_PASSWORD }}
-            port: ${{ secrets.LINUX_HOST_PORT }}
-            script: |
-              export DB_USER=${{ env.DB_USER }}
-              export DB_PASSWORD=${{ env.DB_PASSWORD }}
-              cd /home/lechuckthepirate/blogsite
-              /usr/local/bin/docker-compose -f docker-compose-main.yml down --remove-orphans
-              /usr/local/bin/docker-compose -f docker-compose-main.yml pull --quiet
-              /usr/local/bin/docker-compose -f docker-compose-main.yml up -d --no-color 
+      - name: DockerHub login
+        uses: docker/login-action@v3
+        with:
+          registry: ghcr.io
+          username: ${{ github.repository_owner }}
+          password: ${{ secrets.PUBLISH_DOCKER_IMAGE_TOKEN }}
+
+      - name: Build and push API
+        uses: docker/build-push-action@v5
+        with:
+          push: true
+          tags: ghcr.io/lechuckthepirate/blogsite-api:latest
+          file: ./src/BlogSite.Api/Dockerfile
+          context: ./src
+
+      - name: Build and push WASM
+        uses: docker/build-push-action@v5
+        with:
+          push: true
+          tags: ghcr.io/lechuckthepirate/blogsite-wasm:latest
+          file: ./src/BlogSite.Wasm/Dockerfile
+          context: ./src
+  deploy-to-main:
+    name: Deploy main to host
+    needs: build-dockerfiles
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+      - name: Copy docker compose file to host
+        uses: appleboy/scp-action@v0.1.4
+        with:
+          host: ${{ secrets.LINUX_HOST }}
+          username: ${{ secrets.LINUX_HOST_USERNAME }}
+          password: ${{ secrets.LINUX_HOST_PASSWORD }}
+          port: ${{ secrets.LINUX_HOST_PORT }}
+          source: "./src/docker-compose-main.yml"
+          target: /home/lechuckthepirate/blogsite/
+          strip_components: 2
+          overwrite: true
+      - name: Running docker-compose remotely
+        env:
+          DB_USER: ${{ secrets.DB_USER }}
+          DB_PASSWORD: ${{ secrets.DB_PASSWORD }}
+        uses: appleboy/ssh-action@v1.0.0
+        with:
+          host: ${{ secrets.LINUX_HOST }}
+          username: ${{ secrets.LINUX_HOST_USERNAME }}
+          password: ${{ secrets.LINUX_HOST_PASSWORD }}
+          port: ${{ secrets.LINUX_HOST_PORT }}
+          script: |
+            export DB_USER=${{ env.DB_USER }}
+            export DB_PASSWORD=${{ env.DB_PASSWORD }}
+            cd /home/lechuckthepirate/blogsite
+            /usr/local/bin/docker-compose -f docker-compose-main.yml down --remove-orphans
+            /usr/local/bin/docker-compose -f docker-compose-main.yml pull --quiet
+            /usr/local/bin/docker-compose -f docker-compose-main.yml up -d --no-color 
