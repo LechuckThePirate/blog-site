@@ -38,12 +38,12 @@ jobs:
           username: ${{ github.repository_owner }}
           password: ${{ secrets.PUBLISH_DOCKER_IMAGE_TOKEN }}
 
-      - name: Build and push
+      - name: Build and push API
         uses: docker/build-push-action@v5
         with:
           push: true
-          tags: ghcr.io/lechuckthepirate/blogsite-wasm:latest
-          file: ./src/BlogSite.Wasm/Dockerfile
+          tags: ghcr.io/lechuckthepirate/blogsite-api:latest
+          file: ./src/BlogSite.Api/Dockerfile
           context: ./src
           
 #      - name: Setup .NET
