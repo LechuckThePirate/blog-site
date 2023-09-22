@@ -83,7 +83,7 @@ jobs:
           port: ${{ secrets.LINUX_HOST_PORT }}
           script: |
             export DB_USER=${{ env.DB_USER }}
-            export DB_PASSWORD=${{ DB_PASSWORD }}
+            export DB_PASSWORD=${{ env.DB_PASSWORD }}
             cd /home/lechuckthepirate/blogsite
             /usr/local/bin/docker-compose -f docker-compose-main.yml down --remove-orphans
             /usr/local/bin/docker-compose -f docker-compose-main.yml pull --quiet
