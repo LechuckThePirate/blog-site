@@ -80,9 +80,11 @@ jobs:
           port: ${{ secrets.LINUX_HOST_PORT }}
           script: |
             cd /home/lechuckthepirate/blogsite
-            docker-compose down -f docker-compose-main.yml
-            docker-compose pull -f docker-compose-main.yml
-            docker-compose up -d -f docker-compose-main.yml
+            export DB_USER=${{ secrets.DB_USER }}
+            export DB_PASSWORD=${{ secrets.DB_PASSWORD }}
+            docker-compose -f docker-compose-main.yml down 
+            docker-compose -f docker-compose-main.yml pull 
+            docker-compose -f docker-compose-main.yml up
             
             
 ##           mkdir -p /home/lechuckthepirate/blogsite
