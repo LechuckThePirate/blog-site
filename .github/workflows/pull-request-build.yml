@@ -73,8 +73,8 @@ jobs:
           overwrite: true
       - name: Running docker-compose remotely
         env: 
-          DB_USER=${{ secrets.DB_USER }}
-          DB_PASSWORD=${{ secrets.DB_PASSWORD }}
+          DB_USER: ${{ secrets.DB_USER }}
+          DB_PASSWORD: ${{ secrets.DB_PASSWORD }}
         uses: appleboy/ssh-action@v1.0.0
         with:
           host: ${{ secrets.LINUX_HOST }}
