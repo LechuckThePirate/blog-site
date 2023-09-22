@@ -54,6 +54,19 @@ jobs:
           file: ./src/BlogSite.Wasm/Dockerfile
           context: ./src
 
+  deploy-to-main:
+    name: Deploy main to host
+    runs-on: ubuntu-latest
+    steps:
+      - name: executing remote ssh commands using password
+        uses: appleboy/ssh-action@v1.0.0
+        with:
+          host: ${{ secrets.HOST }}
+          username: ${{ secrets.LINUX_HOST_USERNAME }}
+          password: ${{ secrets.LINUX_HOST_PASSWORD }}
+          port: ${{ secrets.LINUX_HOST_PORT }}
+          script: whoami
+            
 
 #      - name: Setup .NET
 #        uses: actions/setup-dotnet@v3
