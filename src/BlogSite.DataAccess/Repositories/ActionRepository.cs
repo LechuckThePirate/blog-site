@@ -24,6 +24,7 @@ public class ActionRepository : IActionRepository
     {
         try
         {
+            _logger.LogInformation("Logging action: {action}", action.Action);
             var sql = "INSERT INTO access (Id, Action, Data, CreatedAt, CreatedBy) " +
                       "VALUES (@Id, @Action, @Data, @CreatedAt, @CreatedBy)";
             var dbAction = AppActionDbEntity.FromAction(action);
