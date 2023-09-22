@@ -56,32 +56,30 @@ jobs:
 
   deploy-to-main:
     name: Deploy main to host
+    needs: build-dockerfiles
     runs-on: ubuntu-latest
     steps:
-      - name: executing remote ssh commands using password
+      - uses: actions/checkout@v3
+      - name: Copy docker compose file to host
+        uses: appleboy/scp-action@v0.1.4
+        with:
+          host: ${{ secrets.LINUX_HOST }}
+          username: ${{ secrets.LINUX_HOST_USERNAME }}
+          password: ${{ secrets.LINUX_HOST_PASSWORD }}
+          port: ${{ secrets.LINUX_HOST_PORT }}
+          source: "./src/docker-compose-main.yml"
+          target: ./docker-compose.yml
+      - name: Running docker-compose remotely
         uses: appleboy/ssh-action@v1.0.0
         with:
           host: ${{ secrets.LINUX_HOST }}
           username: ${{ secrets.LINUX_HOST_USERNAME }}
           password: ${{ secrets.LINUX_HOST_PASSWORD }}
           port: ${{ secrets.LINUX_HOST_PORT }}
-          script: whoami
-            
-
-#      - name: Setup .NET
-#        uses: actions/setup-dotnet@v3
-#        with:
-#          dotnet-version: 7.0.x
-#      - name: Restore dependencies
-#        run: dotnet restore ./src/BlogSite.sln
-#      - name: Build WASM DockerFile
-#        run: docker build -f ./src/BlogSite.Wasm/Dockerfile -t blogsite-wasm:latest ./src/BlogSite.Wasm
-#      - name: Build API DockerFile
-#        run: docker build -f ./src/BlogSite.Api/Dockerfile -t blogsite-api:latest ./src/BlogSite.Api
-#      - name: Login to ghcr.io
-#        run: docker login ghcr.io -u ${{ github.repository_owner }} -p ${{ secrets.PUBLISH_DOCKER_IMAGE_TOKEN }} 
-#      - name: Push Wasm DockerFile 
-#        run: docker push ghcr.io/${{ github.repository }}/blogsite-wasm:latest
-#      - name: Push API DockerFile
-#        run: docker push ghcr.io/${{ github.repository }}/blogsite-api:latest
-#   
+          script: |
+            mkdir -p /home/lechuckthepirate/blogsite
+            mv ./docker-compose.yml /home/lechuckthepirate/blogsite/docker-compose.yml
+            cd /home/lechuckthepirate/blogsite
+            docker-compose down
+            docker-compose pull
+            docker-compose up -d
