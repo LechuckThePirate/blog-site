@@ -68,8 +68,8 @@ jobs:
           password: ${{ secrets.LINUX_HOST_PASSWORD }}
           port: ${{ secrets.LINUX_HOST_PORT }}
           source: "./src/docker-compose-main.yml"
-          target: /home/lechuckthepirate/
-          strip_components: 1
+          target: /home/lechuckthepirate/blogsite/
+          strip_components: 2
           overwrite: true
       - name: Running docker-compose remotely
         uses: appleboy/ssh-action@v1.0.0
