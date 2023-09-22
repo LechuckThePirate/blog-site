@@ -82,10 +82,8 @@ jobs:
             cd /home/lechuckthepirate/blogsite
             export DB_USER=${{ secrets.DB_USER }}
             export DB_PASSWORD=${{ secrets.DB_PASSWORD }}
-            docker-compose -f docker-compose-main.yml down 
-            docker-compose -f docker-compose-main.yml pull 
-            docker-compose -f docker-compose-main.yml up
+            /usr/local/bin/docker-compose -f docker-compose-main.yml down 
+            /usr/local/bin/docker-compose -f docker-compose-main.yml pull 
+            /usr/local/bin/docker-compose -f docker-compose-main.yml up
+
             
-            
-##           mkdir -p /home/lechuckthepirate/blogsite
-##           mv ./docker-compose.yml /home/lechuckthepirate/blogsite/docker-compose.yml

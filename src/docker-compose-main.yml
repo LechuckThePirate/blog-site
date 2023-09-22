@@ -1,6 +1,6 @@
 ﻿services:
   blogsite.wasm:
-    image: "ghcr.io/lechuckthepirate/blogsite-wasm:latest"
+    image: ghcr.io/lechuckthepirate/blogsite-wasm:latest
     ports:
       - '80:80'
       - '443:443'
@@ -8,7 +8,7 @@
       - '80'
       - '443'
   blogsite.api:
-    image: "ghcr.io/lechuckthepirate/blogsite-api:latest"
+    image: ghcr.io/lechuckthepirate/blogsite-api:latest
     environment:
       DB_HOST: blogsite.db
       DB_PORT: 3306
@@ -20,12 +20,14 @@
     expose:
       - '80'
       - '443'
+    depends_on:
+      - blogsite.db
   blogsite.db:
     image: mysql:5.7
     restart: always
     environment:
       MYSQL_DATABASE: db
-      MYSQL_USER: ${USER}
+      MYSQL_USER: ${DB_USER}
       MYSQL_PASSWORD: ${DB_PASSWORD}
       MYSQL_ROOT_PASSWORD: ${DB_PASSWORD}
     ports:
@@ -33,6 +35,7 @@
     expose:
       - '3306'
     volumes:
-      - blogsite-db-volume:/var/lib/mysql
+      - db-volume:/var/lib/mysql
+        
 volumes:
-  blogsite-db-volume:    
+  db-volume:    
