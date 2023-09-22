@@ -33,10 +33,11 @@ app.UseAuthorization();
 
 app.MapControllers();
 
+// TODO: Set environment variable for CORS
 app.UseCors(x => x
     .AllowAnyMethod()
     .AllowAnyHeader()
-    .SetIsOriginAllowed(origin => true) // allow any origin  
+    .SetIsOriginAllowed(origin => origin.Equals("http://4998b9d.online-server.cloud") || origin.Equals("http://localhost")) // allow any origin  
     .AllowCredentials());               // allow credentials 
 
 app.Run();
