@@ -80,9 +80,9 @@ jobs:
           port: ${{ secrets.LINUX_HOST_PORT }}
           script: |
             cd /home/lechuckthepirate/blogsite
-            docker-compose down
-            docker-compose pull
-            docker-compose up -d
+            docker-compose down -f docker-compose-main.yml
+            docker-compose pull -f docker-compose-main.yml
+            docker-compose up -d -f docker-compose-main.yml
             
             
 ##           mkdir -p /home/lechuckthepirate/blogsite
