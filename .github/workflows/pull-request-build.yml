@@ -72,19 +72,19 @@ jobs:
           strip_components: 2
           overwrite: true
       - name: Running docker-compose remotely
+        env: 
+          DB_USER=${{ secrets.DB_USER }}
+          DB_PASSWORD=${{ secrets.DB_PASSWORD }}
         uses: appleboy/ssh-action@v1.0.0
         with:
           host: ${{ secrets.LINUX_HOST }}
           username: ${{ secrets.LINUX_HOST_USERNAME }}
           password: ${{ secrets.LINUX_HOST_PASSWORD }}
           port: ${{ secrets.LINUX_HOST_PORT }}
-          env: |
-            DB_USER=${{ secrets.DB_USER }}
-            DB_PASSWORD=${{ secrets.DB_PASSWORD }}
           script: |
             cd /home/lechuckthepirate/blogsite
-            /usr/local/bin/docker-compose -f docker-compose-main.yml down 
-            /usr/local/bin/docker-compose -f docker-compose-main.yml pull 
-            /usr/local/bin/docker-compose -f docker-compose-main.yml up -d
+            /usr/local/bin/docker-compose -f docker-compose-main.yml down --remove-orphans
+            /usr/local/bin/docker-compose -f docker-compose-main.yml pull --quiet
+            /usr/local/bin/docker-compose -f docker-compose-main.yml up -d --no-color 
 
             
