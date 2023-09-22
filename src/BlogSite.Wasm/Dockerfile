@@ -15,4 +15,4 @@ RUN dotnet publish "BlogSite.Wasm.csproj" -c Release -o /app/publish /p:UseAppHo
 FROM nginx:alpine AS final
 WORKDIR /usr/share/nginx/html
 COPY --from=publish /app/publish/wwwroot .
-COPY ./src/BlogSite.Wasm/nginx.conf /etc/nginx/nginx.conf
+COPY ./BlogSite.Wasm/nginx.conf /etc/nginx/nginx.conf

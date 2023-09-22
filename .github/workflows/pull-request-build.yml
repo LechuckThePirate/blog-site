@@ -46,6 +46,15 @@ jobs:
           file: ./src/BlogSite.Api/Dockerfile
           context: ./src
           
+      - name: Build and push WASM
+        uses: docker/build-push-action@v5
+        with:
+          push: true
+          tags: ghcr.io/lechuckthepirate/blogsite-wasm:latest
+          file: ./src/BlogSite.Wasm/Dockerfile
+          context: ./src
+
+
 #      - name: Setup .NET
 #        uses: actions/setup-dotnet@v3
 #        with:
