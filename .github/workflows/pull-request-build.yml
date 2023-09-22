@@ -56,7 +56,7 @@ jobs:
 
   deploy-to-main:
     name: Deploy main to host
-    needs: build-dockerfiles
+#    needs: build-dockerfiles
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v3
