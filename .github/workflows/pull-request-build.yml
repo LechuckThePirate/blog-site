@@ -68,7 +68,7 @@ jobs:
           password: ${{ secrets.LINUX_HOST_PASSWORD }}
           port: ${{ secrets.LINUX_HOST_PORT }}
           source: "./src/docker-compose-main.yml"
-          target: ./
+          target: /home/lechuckthepirate/
           strip_components: 1
           overwrite: true
       - name: Running docker-compose remotely
@@ -79,9 +79,11 @@ jobs:
           password: ${{ secrets.LINUX_HOST_PASSWORD }}
           port: ${{ secrets.LINUX_HOST_PORT }}
           script: |
-            mkdir -p /home/lechuckthepirate/blogsite
-            mv ./docker-compose.yml /home/lechuckthepirate/blogsite/docker-compose.yml
             cd /home/lechuckthepirate/blogsite
             docker-compose down
             docker-compose pull
             docker-compose up -d
+            
+            
+##           mkdir -p /home/lechuckthepirate/blogsite
+##           mv ./docker-compose.yml /home/lechuckthepirate/blogsite/docker-compose.yml
