@@ -78,10 +78,11 @@ jobs:
           username: ${{ secrets.LINUX_HOST_USERNAME }}
           password: ${{ secrets.LINUX_HOST_PASSWORD }}
           port: ${{ secrets.LINUX_HOST_PORT }}
+          env: |
+            DB_USER=${{ secrets.DB_USER }}
+            DB_PASSWORD=${{ secrets.DB_PASSWORD }}
           script: |
             cd /home/lechuckthepirate/blogsite
-            export DB_USER=${{ secrets.DB_USER }}
-            export DB_PASSWORD=${{ secrets.DB_PASSWORD }}
             /usr/local/bin/docker-compose -f docker-compose-main.yml down 
             /usr/local/bin/docker-compose -f docker-compose-main.yml pull 
             /usr/local/bin/docker-compose -f docker-compose-main.yml up
