@@ -7,6 +7,9 @@
     expose:
       - '80'
       - '443'
+    volumes:
+      - ./key.pem:/etc/letsencrypt/live/4998b9d.online-server.cloud/privkey.pem
+      - ./cert.pem:/etc/letsencrypt/live/4998b9d.online-server.cloud/fullchain.pem
   blogsite.api:
     image: ghcr.io/lechuckthepirate/blogsite-api:latest
     environment:
