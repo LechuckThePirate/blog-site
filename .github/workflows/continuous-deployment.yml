@@ -68,3 +68,4 @@ jobs:
             /usr/local/bin/docker-compose -f docker-compose-main.yml down --remove-orphans
             /usr/local/bin/docker-compose -f docker-compose-main.yml pull --quiet
             /usr/local/bin/docker-compose -f docker-compose-main.yml up -d --no-color 
+            docker system prune -a -f
