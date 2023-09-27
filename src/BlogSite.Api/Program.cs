@@ -35,7 +35,7 @@ app.MapControllers();
 app.UseCors(x => x
     .AllowAnyMethod()
     .AllowAnyHeader()
-    .SetIsOriginAllowed(origin => origin.Equals("http://4998b9d.online-server.cloud") || origin.Equals("http://localhost")) // allow any origin  
+    .SetIsOriginAllowed(origin => origin.Equals("https://4998b9d.online-server.cloud") || origin.Equals("http://localhost")) // allow any origin  
     .AllowCredentials());               // allow credentials 
 
 app.Run();
@@ -46,7 +46,6 @@ string? BuildConnectionString()
     var password = Environment.GetEnvironmentVariable("DB_PASSWORD");
     var host = Environment.GetEnvironmentVariable("DB_HOST");
     var port = Environment.GetEnvironmentVariable("DB_PORT");
-    var name = "db";
     
     return builder.Configuration.GetConnectionString("mysql")?
         .Replace("{{DB_USER}}", user)
