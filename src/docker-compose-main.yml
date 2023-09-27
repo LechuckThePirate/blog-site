@@ -8,8 +8,8 @@
       - '80'
       - '443'
     volumes:
-      - ./key.pem:/etc/letsencrypt/live/4998b9d.online-server.cloud/privkey.pem
-      - ./cert.pem:/etc/letsencrypt/live/4998b9d.online-server.cloud/fullchain.pem
+      - /etc/letsencrypt/live/4998b9d.online-server.cloud/privkey.pem:/root/ssl/key.pem
+      - /etc/letsencrypt/live/4998b9d.online-server.cloud/cert.pem:/root/ssl/cert.pem
   blogsite.api:
     image: ghcr.io/lechuckthepirate/blogsite-api:latest
     environment:
