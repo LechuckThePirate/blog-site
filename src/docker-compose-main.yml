@@ -21,6 +21,9 @@
       - '5001'
     depends_on:
       - blogsite.db
+    volumes:
+      - /etc/letsencrypt/live/4998b9d.online-server.cloud/privkey.pem:/root/ssl/key.pem
+      - /etc/letsencrypt/live/4998b9d.online-server.cloud/fullchain.pem:/root/ssl/cert.pem
       
   blogsite.db:
     image: mysql:5.7
