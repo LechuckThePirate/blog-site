@@ -19,10 +19,8 @@
       DB_PASSWORD: ${DB_PASSWORD}
     ports:
       - '5000:80'
-      - '5001:443'
     expose:
       - '5000'
-      - '5001'
     depends_on:
       - blogsite.db
   blogsite.db:
