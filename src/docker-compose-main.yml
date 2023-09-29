@@ -6,7 +6,7 @@
       - '443'
     volumes:
       - /etc/letsencrypt/live/4998b9d.online-server.cloud/privkey.pem:/root/ssl/key.pem
-      - /etc/letsencrypt/live/4998b9d.online-server.cloud/cert.pem:/root/ssl/cert.pem
+      - /etc/letsencrypt/live/4998b9d.online-server.cloud/fullchain.pem:/root/ssl/cert.pem
   blogsite.api:
     image: ghcr.io/lechuckthepirate/blogsite-api:latest
     environment:
@@ -21,6 +21,7 @@
       - '5001'
     depends_on:
       - blogsite.db
+      
   blogsite.db:
     image: mysql:5.7
     restart: always
