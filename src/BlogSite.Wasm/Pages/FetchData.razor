@@ -42,7 +42,7 @@ else
 
     protected override async Task OnInitializedAsync()
     {
-        var response = await Http.GetAsync("https://4998b9d.online-server.cloud:5001/WeatherForecast");
+        var response = await Http.GetAsync("https://4998b9d.online-server.cloud/api/WeatherForecast");
         forecasts = JsonSerializer.Deserialize<WeatherForecast[]>(await response.Content.ReadAsStringAsync(), new JsonSerializerOptions { PropertyNameCaseInsensitive = true });
     }
     
