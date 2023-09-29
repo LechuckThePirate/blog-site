@@ -1,9 +1,6 @@
 ﻿services:
   blogsite.wasm:
     image: ghcr.io/lechuckthepirate/blogsite-wasm:latest
-    ports:
-      - '80:80'
-      - '443:443'
     expose:
       - '80'
       - '443'
@@ -17,10 +14,11 @@
       DB_PORT: 3306
       DB_USER: ${DB_USER}
       DB_PASSWORD: ${DB_PASSWORD}
-    ports:
-      - '5000:80'
+      ASPNETCORE_HTTPS_PORT: https://+:5001
+      ASPNETCORE_URLS: http://+:5000;https://+:5001
     expose:
       - '5000'
+      - '5001'
     depends_on:
       - blogsite.db
   blogsite.db:
@@ -31,8 +29,6 @@
       MYSQL_USER: ${DB_USER}
       MYSQL_PASSWORD: ${DB_PASSWORD}
       MYSQL_ROOT_PASSWORD: ${DB_PASSWORD}
-    ports:
-      - '3306:3306'
     expose:
       - '3306'
     volumes:
